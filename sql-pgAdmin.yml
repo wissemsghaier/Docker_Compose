@@ -1,0 +1,36 @@
+version: "3.8"
+services:
+  db:
+    image: postgres
+    container_name: local_pgdb
+    ports:
+      - "54320:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      
+    volumes:
+      - local_pgdata:/var/lib/postgresql/data
+    networks: 
+      - my-network
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: wissemsghaier2000@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin 
+    networks:
+      - my-network
+      - sonarqube-postgres
+volumes:
+  local_pgdata:
+  pgadmin-data:  
+networks:  
+  sonarqube-postgres: 
+    name: sonarqube-postgres
+  my-network:
+    name: my-network
